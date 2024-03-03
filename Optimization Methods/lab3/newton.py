@@ -18,6 +18,20 @@ def nsearch(tol, x0):
 #   coords - array of x values found during optimization    
 
 	#PLACE YOUR CODE HERE
+    neval = 0
+    coords = []
+
+    x = x0
+    df_x = df(x)
+
+    while np.abs(df_x) > tol:
+        x -= df_x / ddf(x)
+        df_x = df(x)
+        coords.append(x)
+        neval += 3
+
+    xmin = x
+    fmin = f(x)
 
     answer_ = [xmin, fmin, neval, coords]
     return answer_
