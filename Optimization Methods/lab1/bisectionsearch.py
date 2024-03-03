@@ -15,19 +15,21 @@ def bsearch(interval, tol):
 # neval - number of function evaluations
 # coords - array of x values found during optimization
 
-    max_neval = 100000
-
     a, b = interval
 
     coords = []
     neval = 0
 
-    while neval < max_neval and (b - a) > tol:
+    g = df(a)
+    while b - a > tol and np.abs(g) > tol:
         x = (a + b) / 2
-        if df(x) > 0:
+        df_x = df(x)
+
+        if df_x > 0:
             b = x
         else:
             a = x
+            g = df_x
 
         neval += 1
         coords.append(x)
