@@ -15,7 +15,7 @@ def gsearch(interval, tol):
 #   coords - array of statistics,  coord[i][:] =  [x1,x2, a, b]
 
     #PLACE YOUR CODE HERE
-    neval = 0
+    neval = 2
     coord = []
 
     FI = (1 + 5 ** (1/2)) / 2
@@ -47,6 +47,7 @@ def gsearch(interval, tol):
         neval += 1
 
     fmin = f(xmin)
+    neval += 1
 
     answer_ = [xmin, fmin, neval, coord]
     return answer_

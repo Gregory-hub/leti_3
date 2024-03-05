@@ -18,7 +18,7 @@ def bsearch(interval, tol):
     a, b = interval
 
     coords = []
-    neval = 0
+    neval = 1
 
     g = df(a)
     while b - a > tol and np.abs(g) > tol:
@@ -36,6 +36,7 @@ def bsearch(interval, tol):
 
     xmin = x
     fmin = f(x)
+    neval += 1
 
     answer_ = [xmin, fmin, neval, coords]
     return answer_

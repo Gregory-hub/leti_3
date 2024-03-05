@@ -18,7 +18,7 @@ def nsearch(tol, x0):
 #   coords - array of x values found during optimization    
 
 	#PLACE YOUR CODE HERE
-    neval = 0
+    neval = 1
     coords = []
 
     x = x0
@@ -32,6 +32,7 @@ def nsearch(tol, x0):
 
     xmin = x
     fmin = f(x)
+    neval += 1
 
     answer_ = [xmin, fmin, neval, coords]
     return answer_

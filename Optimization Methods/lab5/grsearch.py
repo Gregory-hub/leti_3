@@ -65,6 +65,7 @@ def grsearch(x0,tol):
 
     xmin = x
     fmin = f(x)
+    neval += 1
 
     answer_ = [xmin, fmin, neval, coords]
     return answer_
