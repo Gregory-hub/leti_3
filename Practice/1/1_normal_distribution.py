@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sb
+# import statistics as stats
 
 li = np.array([1.64, 2.07, 2.41, 1.73, 2.48, 9.49, 1.61, 2.17, 9.22, 1.26, -1.02, -1.78,
                -7.97, 1.66, 1.7, -1.88, 1.71, -2.85, 2.69, -4, -3.3, -5.34, -4.97, -3.21,
@@ -15,6 +16,28 @@ li = np.array([1.64, 2.07, 2.41, 1.73, 2.48, 9.49, 1.61, 2.17, 9.22, 1.26, -1.02
                -14, -13.6, -13.2, -15.6, -14.9, -15, -14.8, -15.3, -13, -13.5, -13.6, -13.2,
                -14, -14.3, -15, -17, -17.5, -16.6, -14.9, -14, -12.2, -12.7, -13.7, -12.9])
 
+# a, b = min(li), max(li)
+# num_of_points = 50
+# step = (b - a) / num_of_points
+
+# x = a
+# probability = {}
+# for i in range(num_of_points):
+#     count = 0
+#     for j in range(len(li)):
+#         if li[j] < x:
+#             count += 1
+
+#     probability[x] = count / len(li)
+#     x += step
+
+print("Mean:", np.mean(li))
+print("Median:", np.median(li))
+print("Variance:", np.var(li))   # дисперсия
+print("Standard deviation:", np.std(li))      # среднеквадратичное
+
 sb.histplot(li, stat="probability", bins=50, kde=True)
+# plt.plot(probability.keys(), probability.values())
+# plt.plot(probability.keys(), np.gradient(list(probability.values())), 'r')
 plt.grid()
 plt.show()
