@@ -13,7 +13,7 @@ def f(X):
     #Версия питона в codeboard не поддерживает метод библиотеки numpy float_power 
     v = (x**2 + y - 11)**2 + (x + y** 2 - 7)**2
     return v
-    
+
 # DF_HIMMELBLAU is a Himmelblau function derivative
 # 	v = DF_HIMMELBLAU(X)
 #	INPUT ARGUMENTS:
@@ -74,4 +74,4 @@ def grsearch(x0,tol):
 if __name__ == "__main__":
     xmin, fmin, neval, coords = grsearch(np.array([0, 1]), 1e-3)
     print(xmin, fmin, neval)
-    print(coords, sep = "\n")
+    print(coords, sep="\n")
