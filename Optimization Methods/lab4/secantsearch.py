@@ -43,3 +43,7 @@ def ssearch(interval,tol):
 
     answer_ = [xmin, fmin, neval, coords]
     return answer_
+
+
+if __name__ == "__main__":
+    print(*ssearch([-5, 1], 1e-7), sep=',\n')
