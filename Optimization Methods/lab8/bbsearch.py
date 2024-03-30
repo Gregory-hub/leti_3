@@ -12,6 +12,8 @@ def goldensectionsearch(f, interval, tol):
     mu = a + (b - a) / FI
     fmu = f(mu)
 
+    neval = 2
+
     while np.abs(b - a) > tol:
         if flam > fmu:
             a = lam
@@ -27,8 +29,10 @@ def goldensectionsearch(f, interval, tol):
             fmu = flam
             lam = b - (b - a) / FI
             flam = f(lam)
+        
+        neval += 1
 
-    return xmin
+    return xmin, neval
 
 
 # F_ROSENBROCK is a Rosenbrock function
@@ -76,9 +80,6 @@ def bbsearch(f, df, x0, tol):
 
     #PLACE YOUR CODE HERE
     d = 0.1
-    a = goldensectionsearch(lambda x: norm(-df(np.array([x, x]))), [0, 1], tol)
-    # a = 0.001
-
     kmax = 1000
     coords = []
 
@@ -86,24 +87,27 @@ def bbsearch(f, df, x0, tol):
     coords.append(x.copy())
 
     g = df(x)
-    deltaX = a * g
-    x -= deltaX
-    coords.append(x.copy())
+    df1dim = lambda a: norm(-df(x - a * g))
+    a, neval = goldensectionsearch(df1dim, [0, 1], tol)
+    deltaX = np.array([np.inf, np.inf])
 
-    neval = 1
+    neval += 1
 
     k = 0
     while (norm(deltaX) >= tol) and (k < kmax):
-        g_prev = g.copy()
-        g = df(x)
-
-        a = (np.dot(deltaX.T, deltaX) / np.dot(deltaX.T, (g - g_prev)))[0][0]
         a_stab = d / norm(g)
         a = min(a, a_stab)
 
         deltaX = a * g
         x -= deltaX
         coords.append(x.copy())
+
+        g_prev = g.copy()
+        g = df(x)
+        deltaG = g - g_prev
+
+        a = abs(np.dot(deltaX.T, deltaX)[0][0])
+        a /= abs(np.dot(deltaX.T, deltaG)[0][0])
 
         k += 1
         neval += 1
