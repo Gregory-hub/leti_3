@@ -36,3 +36,7 @@ def nsearch(tol, x0):
 
     answer_ = [xmin, fmin, neval, coords]
     return answer_
+
+
+if __name__ == "__main__":
+    print(*nsearch(1e-7, 0.5))
