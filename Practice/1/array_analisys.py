@@ -74,8 +74,8 @@ normal_d_y = normal_distribution(dist_x, M, stdev)
 dist = pd.DataFrame({
     "X": dist_x,
     "Distribution": dist_y,
+    "Distribution smoothed": smooth(dist_y, 20),
     "Normal distribution": normal_d_y,
-    "Normal distribution smoothed": smooth(normal_d_y, 20),
     # "Wiebull distribution": wiebull_d_y    
 })
 
@@ -90,7 +90,7 @@ print("Эксцесс:", E)
 
 # sb.histplot(data, stat="probability", bins=num_points, kde=True)
 plt.plot(dist["X"], dist["Distribution"], color="c")
-plt.plot(dist["X"], dist["Normal distribution smoothed"], color="purple")
+plt.plot(dist["X"], dist["Distribution smoothed"], color="purple")
 plt.plot(dist["X"], dist["Normal distribution"], color="r")
 # plt.plot(dist["X"], dist["Wiebull distribution"], color="y")
 plt.legend(dist.keys()[1:])
