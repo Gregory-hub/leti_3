@@ -50,16 +50,16 @@ def grsearch(x0,tol):
     neval = 0
 
     x = x0.astype("float64")
-    coords.append(x.copy())
+    coords.append(x)
     deltaX = np.array([np.inf, np.inf])
 
     k = 0
     while norm(deltaX) >= tol and k < kmax:
         g = -df(x)
-        x += al * g
-        deltaX = x - coords[-1]
+        deltaX = al * g
+        x = x + deltaX
 
-        coords.append(x.copy())
+        coords.append(x)
         k += 1
         neval += 1
 

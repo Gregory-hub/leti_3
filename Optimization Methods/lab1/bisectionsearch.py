@@ -29,7 +29,7 @@ def bsearch(interval, tol):
             b = x
         else:
             a = x
-            g = df_x
+            g = df_x    # g is df(a)
 
         neval += 1
         coords.append(x)
