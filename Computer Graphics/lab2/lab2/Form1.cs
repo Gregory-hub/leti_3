@@ -16,6 +16,7 @@ namespace lab2
 		Graphics g;
 		SolidBrush brush;
 		Pen pen;
+		Pen linePen;
 
 		int pointFatness = 4;
 
@@ -32,6 +33,7 @@ namespace lab2
 			g = pictureBox1.CreateGraphics();
 			brush = new SolidBrush(Color.Black);
 			pen = new Pen(Color.Blue);
+			linePen = new Pen(Color.Cyan);
 
 			points = new List<Point>();
 		}
@@ -42,6 +44,7 @@ namespace lab2
 			{
 				errorMessageLabel.Text = "";
                 g.Clear(Color.White);
+				DrawLines();
 				DrawPoints();
 				DrawSpline();
 			} else
@@ -71,6 +74,19 @@ namespace lab2
 				DrawPoint(points[i].X, points[i].Y, pointFatness);
 			}
 
+		}
+		
+		private void DrawLines()
+		{
+			for (int i = 0; i < points.Count - 1; i++)
+			{
+				DrawLine(points[i], points[i + 1]);
+            }
+        }
+
+		private void DrawLine(Point p1, Point p2)
+		{
+            g.DrawLine(linePen, p1, p2);
 		}
 
 		private void DrawPoint(int x, int y, int fatness)
