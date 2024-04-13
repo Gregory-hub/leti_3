@@ -20,22 +20,24 @@ def ssearch(interval,tol):
     coords = []
     a, b = interval
 
+    df_a = df(a)
     df_b = df(b)
-    x = b - df_b * (b - a) / (df_b - df(a))
+    x = b - df_b * (b - a) / (df_b - df_a)
     df_x = df(x)
 
     neval = 3
     while np.abs(df_x) > tol and np.abs(b - a) > tol:
-        df_b = df(b)
-        x = b - df_b * (b - a) / (df_b - df(a))
+        x = b - df_b * (b - a) / (df_b - df_a)
         df_x = df(x)
         if df_x > 0:
             b = x
+            df_b = df_x
         else:
             a = x
+            df_a = df_x
 
         coords.append([x, a, b])
-        neval += 3
+        neval += 1
 
     xmin = x
     fmin = f(x)

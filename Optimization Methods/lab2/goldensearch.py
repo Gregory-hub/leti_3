@@ -22,13 +22,12 @@ def gsearch(interval, tol):
 
     a, b = interval
 
-    lam = b - (b - a) / FI
-    flam = f(lam)
-    mu = a + (b - a) / FI
-    fmu = f(mu)
-
     while np.abs(b - a) > tol:
-        coord.append([lam, mu, a, b])
+        lam = b - (b - a) / FI
+        flam = f(lam)
+        mu = a + (b - a) / FI
+        fmu = f(mu)
+
         if flam > fmu:
             a = lam
             xmin = mu
@@ -44,6 +43,7 @@ def gsearch(interval, tol):
             lam = b - (b - a) / FI
             flam = f(lam)
 
+        coord.append([lam, mu, a, b])
         neval += 1
 
     fmin = f(xmin)
