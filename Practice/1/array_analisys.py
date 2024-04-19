@@ -93,6 +93,7 @@ plt.plot(dist["X"], dist["Distribution"], color="c")
 plt.plot(dist["X"], dist["Distribution smoothed"], color="purple")
 plt.plot(dist["X"], dist["Normal distribution"], color="r")
 # plt.plot(dist["X"], dist["Wiebull distribution"], color="y")
+
 plt.legend(dist.keys()[1:])
 plt.xlabel("x")
 plt.ylabel("p(x)")
