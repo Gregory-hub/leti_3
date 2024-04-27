@@ -140,22 +140,16 @@ namespace lab_3
 
         private void DisplayMessage()
         {
-            //if (mode == Mode.Rotate)
-            //{
-            //    label2.ForeColor = Color.Black;
-            //    label2.Text = "Rotation angles: " + rotation[0].ToString() + ' ' + rotation[1].ToString();
-            //    //label2.Text = "Use mouse to rotate";
-            //}
-            //else if (GridDensity == 0)
-            //{
-            //    label2.ForeColor = Color.Red;
-            //    label2.Text = "Invalid grid density";
-            //}
-            //else
-            //{
-            //    label2.ForeColor = Color.Black;
-            //    label2.Text = "Enter 4 corner points\n(type or use left mouse button)";
-            //}
+            if (GridDensity <= 1)
+            {
+                label2.ForeColor = Color.Red;
+                label2.Text = "Invalid grid density";
+            }
+            else
+            {
+                label2.ForeColor = Color.Black;
+                label2.Text = "Enter 4 corner points\n(use LMB)\nUse RMB to turn";
+            }
         }
 
         private void DrawCornerPoints(Graphics g)
@@ -183,7 +177,10 @@ namespace lab_3
         {
             point1 += center;
             point2 += center;
-            g.DrawLine(Pens.Black, new Point((int)point1[0], (int)point1[1]), new Point((int)point2[0], (int)point2[1]));
+            if (GridDensity > 1)
+            {
+                g.DrawLine(Pens.Black, new Point((int)point1[0], (int)point1[1]), new Point((int)point2[0], (int)point2[1]));
+            }
         }
 
         private void DrawBilinearSurface(Vector<double>[] corners, Graphics g, int grid_density)
@@ -304,6 +301,12 @@ namespace lab_3
             cornerIndex = 0;
             rotation.Clear();
             pictureBox1.Refresh();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
         }
     }
 }

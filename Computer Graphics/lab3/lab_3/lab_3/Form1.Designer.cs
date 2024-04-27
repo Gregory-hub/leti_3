@@ -47,9 +47,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(34, 337);
+            this.button3.Location = new System.Drawing.Point(51, 405);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(98, 38);
+            this.button3.Size = new System.Drawing.Size(117, 39);
             this.button3.TabIndex = 0;
             this.button3.Text = "Clear";
             this.button3.UseVisualStyleBackColor = true;
@@ -59,16 +59,16 @@
             // 
             this.textBox1.Location = new System.Drawing.Point(34, 128);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(46, 20);
+            this.textBox1.Size = new System.Drawing.Size(46, 22);
             this.textBox1.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(31, 109);
+            this.label1.Location = new System.Drawing.Point(31, 105);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 16);
+            this.label1.Size = new System.Drawing.Size(99, 20);
             this.label1.TabIndex = 2;
             this.label1.Text = "Grid density";
             // 
@@ -86,7 +86,7 @@
             // 
             this.pictureBox1.Location = new System.Drawing.Point(219, 13);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(588, 412);
+            this.pictureBox1.Size = new System.Drawing.Size(721, 492);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox1_Paint);
@@ -100,7 +100,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(34, 285);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(68, 17);
+            this.checkBox1.Size = new System.Drawing.Size(82, 20);
             this.checkBox1.TabIndex = 5;
             this.checkBox1.Text = "Freeze X";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -108,18 +108,18 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(108, 285);
+            this.checkBox2.Location = new System.Drawing.Point(119, 285);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(68, 17);
+            this.checkBox2.Size = new System.Drawing.Size(83, 20);
             this.checkBox2.TabIndex = 6;
             this.checkBox2.Text = "Freeze Y";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(34, 308);
+            this.button1.Location = new System.Drawing.Point(51, 311);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(98, 23);
+            this.button1.Size = new System.Drawing.Size(117, 40);
             this.button1.TabIndex = 7;
             this.button1.Text = "Reset rotation";
             this.button1.UseVisualStyleBackColor = true;
@@ -127,9 +127,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(34, 154);
+            this.button2.Location = new System.Drawing.Point(51, 156);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(98, 23);
+            this.button2.Size = new System.Drawing.Size(117, 37);
             this.button2.TabIndex = 8;
             this.button2.Text = "Refresh image";
             this.button2.UseVisualStyleBackColor = true;
@@ -139,9 +139,9 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(34, 228);
+            this.label7.Location = new System.Drawing.Point(31, 223);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(57, 16);
+            this.label7.Size = new System.Drawing.Size(71, 20);
             this.label7.TabIndex = 16;
             this.label7.Text = "Rotation";
             // 
@@ -151,16 +151,16 @@
             this.textBox5.Location = new System.Drawing.Point(34, 259);
             this.textBox5.Name = "textBox5";
             this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(46, 20);
+            this.textBox5.Size = new System.Drawing.Size(68, 22);
             this.textBox5.TabIndex = 17;
             // 
             // textBox6
             // 
             this.textBox6.Enabled = false;
-            this.textBox6.Location = new System.Drawing.Point(86, 259);
+            this.textBox6.Location = new System.Drawing.Point(119, 259);
             this.textBox6.Name = "textBox6";
             this.textBox6.ReadOnly = true;
-            this.textBox6.Size = new System.Drawing.Size(46, 20);
+            this.textBox6.Size = new System.Drawing.Size(72, 22);
             this.textBox6.TabIndex = 18;
             // 
             // label8
@@ -168,22 +168,22 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(34, 243);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(14, 13);
+            this.label8.Size = new System.Drawing.Size(15, 16);
             this.label8.TabIndex = 19;
             this.label8.Text = "X";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(86, 243);
+            this.label9.Location = new System.Drawing.Point(116, 243);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(14, 13);
+            this.label9.Size = new System.Drawing.Size(16, 16);
             this.label9.TabIndex = 20;
             this.label9.Text = "Y";
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(819, 437);
+            this.ClientSize = new System.Drawing.Size(952, 517);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.textBox6);
@@ -199,6 +199,7 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button3);
             this.Name = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
