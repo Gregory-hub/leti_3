@@ -9,5 +9,11 @@ def normal_distribution(data: list, M: float, stdev: float) -> list:
 def wiebull_distribution(data: list, xmin: float, k: float, M: float) -> list:
     # M is math expectation
     c = M / (gamma(1 / k + 1))
-    weibull_d_y = [0 if x < xmin else k / xmin * ((x - c) / xmin)**(k - 1) * exp(-((x - c) / xmin)**k) for x in data]
+    weibull_d_y = []
+    for x in data:
+        if x < c:
+            weibull_d_y.append(0)
+        else:
+            weibull_d_y.append(k / xmin * ((x - c) / xmin)**(k - 1) * exp(-((x - c) / xmin)**k) for x in data)
+
     return weibull_d_y
