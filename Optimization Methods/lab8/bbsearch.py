@@ -83,8 +83,8 @@ def bbsearch(f, df, x0, tol):
     kmax = 1000
     coords = []
 
-    x = x0.astype("float64")
-    coords.append(x.copy())
+    x = x0
+    coords.append(x)
 
     g = df(x)
     df1dim = lambda a: norm(-df(x - a * g))
@@ -99,10 +99,10 @@ def bbsearch(f, df, x0, tol):
         a = min(a, a_stab)
 
         deltaX = a * g
-        x -= deltaX
-        coords.append(x.copy())
+        x = x - deltaX
+        coords.append(x)
 
-        g_prev = g.copy()
+        g_prev = g
         g = df(x)
         deltaG = g - g_prev
 

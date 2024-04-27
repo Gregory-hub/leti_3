@@ -109,8 +109,8 @@ def sdsearch(f, df, x0, tol):
     kmax = 1000
     neval = 0
 
-    x = x0.astype("float64")
-    coords.append(x.copy())
+    x = x0
+    coords.append(x)
     deltaX = np.array([np.inf, np.inf])
 
     k = 0
@@ -121,8 +121,8 @@ def sdsearch(f, df, x0, tol):
         f1dim = lambda a: f(x - a * grad)
         a = goldensectionsearch(f1dim, [0, 1], tol)
         deltaX = a * grad
-        x -= deltaX
-        coords.append(x.copy())
+        x = x - deltaX
+        coords.append(x)
 
         k += 1
 

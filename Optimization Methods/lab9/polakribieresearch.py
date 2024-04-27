@@ -142,8 +142,8 @@ def prsearch(f, df, x0, tol):
     kmax = 1000
     coords = []
 
-    x = x0.astype("float64")
-    coords.append(x.copy())
+    x = x0
+    coords.append(x)
 
     g = df(x)
     p = -g
@@ -154,9 +154,9 @@ def prsearch(f, df, x0, tol):
     k = 0
     while (norm(g) >= tol) and (k < kmax):
         a = wolfesearch(f, df, x, p, 3, tol, 0.1)
-        x += a * p
-        coords.append(x.copy())
-        g_prev = g.copy()
+        x = x + a * p
+        coords.append(x)
+        g_prev = g
         g = df(x)
         p = -g + b * p
 

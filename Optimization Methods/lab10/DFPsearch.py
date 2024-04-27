@@ -121,7 +121,6 @@ def wolfesearch(f, df, x0, p0, amax, c1, c2):
         a = cinterp(phi, dphi, a, amax)
         i += 1
 
-
     return a
 
 
@@ -146,7 +145,7 @@ def dfpsearch(f, df, x0, tol):
     neval = 1
 
     x = np.array([x0[0][0], x0[1][0]], dtype="float64")
-    coords.append(x.copy())
+    coords.append(x)
 
     H = np.matrix([[1, 0], [0, 1]], dtype="float64")
     g = np.matrix(df(x), dtype="float64").T
@@ -159,10 +158,10 @@ def dfpsearch(f, df, x0, tol):
         a = wolfesearch(f, df, x, np.asarray(p.T)[0], amax=3, c1=tol, c2=0.1)
         d = a * p
 
-        x += np.asarray(d.T)[0]
-        coords.append(x.copy())
+        x = x + np.asarray(d.T)[0]
+        coords.append(x)
 
-        g_prev = g.copy()
+        g_prev = g
         g = np.matrix(df(x), dtype="float64").T
         y = g - g_prev
 

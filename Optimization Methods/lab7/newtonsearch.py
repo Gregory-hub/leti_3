@@ -74,7 +74,7 @@ def H(X, tol, df):
 
     ddfxx = ((df_x_plus_tol[0] - df_x_minus_tol[0]) / (2 * tol))[0]
     ddfxy = ((df_x_plus_tol[1] - df_x_minus_tol[1]) / (2 * tol))[0]
-    ddfyx = ((df_y_plus_tol[0] - df_y_minus_tol[0]) / (2 * tol))[0]
+    ddfyx = ddfxy
     ddfyy = ((df_y_plus_tol[1] - df_y_minus_tol[1]) / (2 * tol))[0]
 
     ddf = np.matrix([
@@ -105,8 +105,8 @@ def nsearch(f, df, x0, tol):
     kmax = 1000
     neval = 0
 
-    x = x0.astype("float64")
-    coords.append(x.copy())
+    x = x0
+    coords.append(x)
     deltaX = np.array([np.inf, np.inf])
 
     k = 0
@@ -115,8 +115,8 @@ def nsearch(f, df, x0, tol):
         H0 = H(x, 0.1 * tol, df)
 
         deltaX = np.linalg.lstsq(-H0, g)[0]
-        x += deltaX
-        coords.append(x.copy())
+        x = x + deltaX
+        coords.append(x)
 
         neval += 5
         k += 1
