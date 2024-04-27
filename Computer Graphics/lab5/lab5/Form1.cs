@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Windows.Forms;
 
 using MathNet.Numerics.LinearAlgebra;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace lab5
 {
@@ -18,9 +13,6 @@ namespace lab5
         private int cornerIndex = 0;
         private Vector<double> center = Vector<double>.Build.DenseOfArray(new[] { 0d, 0d, 0d });
         private Vector<double>[,] surfacePoints;
-
-        private int[] zBuffer;
-        private bool[] pixelsColored;
 
         private bool rightMousePressed = false;
         private Point mouseDownPoint = new Point(0, 0);
@@ -81,8 +73,8 @@ namespace lab5
             if (e.Button == MouseButtons.Left && cornerIndex < corners.Length)
             {
                 Vector<double> point = Vector<double>.Build.DenseOfArray(new[] { e.Location.X, e.Location.Y, 0d });
-                RotatePointY(ref point, -rotation[1]);
-                RotatePointX(ref point, -rotation[0]);
+                //RotatePointY(ref point, -rotation[1]);
+                //RotatePointX(ref point, -rotation[0]);
                 corners[cornerIndex] = point;
                 cornerIndex++;
 
@@ -178,8 +170,8 @@ namespace lab5
                 if (corner != null)
                 {
                     Vector<double> point = corner;
-                    RotatePointX(ref point, rotation[0]);
-                    RotatePointY(ref point, rotation[1]);
+                    //RotatePointX(ref point, rotation[0]);
+                    //RotatePointY(ref point, rotation[1]);
                     DrawPoint(point, cornerPointSize, g);
                 }
             }
@@ -268,54 +260,10 @@ namespace lab5
                 point[i] = corners[0][i] * (1 - u) * (1 - w) + corners[1][i] * (1 - u) * w + corners[2][i] * u * (1 - w) + corners[3][i] * u * w;
             }
 
-            RotatePointX(ref point, rotation[0]);
-            RotatePointY(ref point, rotation[1]);
+            //RotatePointX(ref point, rotation[0]);
+            //RotatePointY(ref point, rotation[1]);
 
             return point;
-        }
-
-        private void RotatePointX(ref Vector<double> v, double angle)
-        {
-            Matrix<double> matrix = GetXRotationMatrix(angle);
-            v -= center;
-            v = matrix * v;
-            v += center;
-        }
-
-        private void RotatePointY(ref Vector<double> v, double angle)
-        {
-            Matrix<double> matrix = GetYRotationMatrix(angle);
-            v -= center;
-            v = matrix * v;
-            v += center;
-        }
-
-        private Matrix<double> GetXRotationMatrix(double angle)
-        {
-            double cos = Math.Cos(angle);
-            double sin = Math.Sin(angle);
-
-            double[,] rotX = {
-                { 1, 0, 0},
-                { 0, cos, -sin},
-                { 0, sin, cos}
-            };
-
-            return Matrix<double>.Build.DenseOfArray(rotX);
-        }
-
-        private Matrix<double> GetYRotationMatrix(double angle)
-        {
-            double cos = Math.Cos(angle);
-            double sin = Math.Sin(angle);
-
-            double[,] rotY = {
-                { cos, 0, sin},
-                { 0, 1, 0},
-                { -sin, 0, cos}
-            };
-
-            return Matrix<double>.Build.DenseOfArray(rotY);
         }
 
         private void ClearForm()
@@ -329,7 +277,6 @@ namespace lab5
         private void Form1_Load(object sender, EventArgs e)
         {
             pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-
         }
     }
 }
