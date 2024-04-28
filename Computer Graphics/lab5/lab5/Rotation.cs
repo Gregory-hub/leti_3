@@ -1,35 +1,54 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
+using System;
 
 namespace lab5
 {
     internal class Rotation
     {
-        public Vector<double> Angles { get; set; }
+        public Matrix<double> Matrix { get; set; }
 
         public Rotation()
         {
-            Angles = Vector<double>.Build.Dense(3);
+            Matrix = Matrix<double>.Build.DenseIdentity(3, 3);  // identity matrix (zero rotation)
         }
 
-        public Rotation(Vector<double> angles)
+        public Vector<double> GetAngles()
         {
-            Angles = angles;
+            Vector<double> angles = Vector<double>.Build.Dense(3);
+            if (Math.Abs(Matrix[2, 0]) != 1)
+            {
+                angles[1] = Math.Asin(-Matrix[2, 0]);
+                double cosY = Math.Cos(angles[1]);
+                angles[0] = Math.Atan2(Matrix[2, 1] / cosY, Matrix[2, 2] / cosY);
+                angles[2] = Math.Atan2(Matrix[1, 0] / cosY, Matrix[0, 0] / cosY);
+            }
+            else
+            {
+                angles[2] = 0;
+                if (Matrix[2, 0] == -1)
+                {
+                    angles[1] = Math.PI;
+                    angles[0] = angles[2] + Math.Atan2(Matrix[0, 1], Matrix[0, 2]);
+                }
+                else
+                {
+                    angles[1] = -Math.PI;
+                    angles[0] = -angles[2] + Math.Atan2(-Matrix[0, 1], -Matrix[0, 2]);
+                }
+            }
+            return angles;
         }
 
-        public Rotation(double x, double y, double z)
+        public static Rotation operator -(Rotation rotation)
         {
-            Angles = Vector<double>.Build.DenseOfArray(new double[] { x, y, z });
+            Rotation newRotation = new Rotation();
+            newRotation.Matrix = rotation.Matrix.Inverse();
+            return newRotation;
         }
 
-        public Rotation(int x, int y, int z)
+        public void Clear()
         {
-            Angles = Vector<double>.Build.DenseOfArray(new double[] { x, y, z });
-        }
-
-        public double this[int i]
-        {
-            get { return Angles[i]; }
-            set { Angles[i] = value; }
+            Matrix = Matrix<double>.Build.DenseIdentity(3, 3);
         }
     }
 }

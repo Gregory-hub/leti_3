@@ -1,5 +1,6 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
 using System;
+using System.Drawing;
 
 namespace lab5
 {
@@ -14,7 +15,7 @@ namespace lab5
 
         public Point3D(Vector<double> coords)
         {
-            Coords = coords;
+            coords.CopyTo(Coords);
         }
 
         public Point3D(double x, double y, double z)
@@ -43,59 +44,26 @@ namespace lab5
             return new Point3D(point1.Coords - point2.Coords);
         }
 
-        public void RotateAround(Point3D center, Rotation rotation)
+        public Point ToPoint()
         {
-            Matrix<double> matrixX = GetXRotationMatrix(rotation[0]);
-            Matrix<double> matrixY = GetYRotationMatrix(rotation[1]);
-            Rotate(center, matrixX);
-            Rotate(center, matrixY);
+            Point point = new Point();
+            point.X = (int)Coords[0];
+            point.Y = (int)Coords[1];
+
+            return point;
         }
 
-        public void RotateX(Point3D center, Rotation rotation)
+        public void Draw(Graphics g, Brush brush, int fatness)
         {
-            Matrix<double> matrixX = GetYRotationMatrix(rotation[0]);
-            Rotate(center, matrixX);
+            Point point = ToPoint();
+            g.FillRectangle(brush, point.X - fatness / 2, point.Y - fatness / 2, fatness, fatness);
         }
 
-        public void RotateY(Point3D center, Rotation rotation)
-        {
-            Matrix<double> matrixY = GetYRotationMatrix(rotation[1]);
-            Rotate(center, matrixY);
-        }
-
-        private void Rotate(Point3D center, Matrix<double> matrix)
+        public void RotateByMatrix(Point3D center, Matrix<double> matrix)
         {
             Coords -= center.Coords;
             Coords = matrix * Coords;
             Coords += center.Coords;
-        }
-
-        private Matrix<double> GetXRotationMatrix(double angle)
-        {
-            double cos = Math.Cos(angle);
-            double sin = Math.Sin(angle);
-
-            double[,] rotX = {
-                { 1, 0, 0},
-                { 0, cos, -sin},
-                { 0, sin, cos}
-            };
-
-            return Matrix<double>.Build.DenseOfArray(rotX);
-        }
-
-        private Matrix<double> GetYRotationMatrix(double angle)
-        {
-            double cos = Math.Cos(angle);
-            double sin = Math.Sin(angle);
-
-            double[,] rotY = {
-                { cos, 0, sin},
-                { 0, 1, 0},
-                { -sin, 0, cos}
-            };
-
-            return Matrix<double>.Build.DenseOfArray(rotY);
         }
     }
 }
