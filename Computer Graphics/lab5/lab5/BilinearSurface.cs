@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace lab5
 {
@@ -17,10 +18,14 @@ namespace lab5
 
         public Brush pointBrush = Brushes.Black;
         public Brush cornerBrush = Brushes.Black;
-        public Brush surfaceBrush = Brushes.Cyan;
+        public Brush surfaceFrontBrush = Brushes.Cyan;
+        public Brush surfaceBackBrush = Brushes.Cyan;
+        public Pen polygonBorderPen = Pens.Black;
 
         public int pointFatness = 1;
         public int cornerFatness = 4;
+
+        private enum PixelType { Point, SurfaceFront, SurfaceBack, Background }
 
         public BilinearSurface()
         {
@@ -30,23 +35,66 @@ namespace lab5
             Rotation = new Rotation();
         }
 
-        public void Fill(Graphics g, bool drawCorners = false, bool drawPoints = false)
+        public void Fill(Graphics g, PictureBox pictureBox, bool drawCorners = false, bool drawPoints = false, bool drawPolygonBorders = false)
         {
+            double[,] zBuffer = new double[pictureBox.Height, pictureBox.Width];
+            PixelType[,] frameBuffer = new PixelType[pictureBox.Height, pictureBox.Width];
+            FillBuffers(ref zBuffer, ref frameBuffer, pictureBox);
+            DrawPixels(g, frameBuffer);
+        }
+
+        private void FillBuffers(ref double[,] zBuffer, ref PixelType[,] frameBuffer, PictureBox pictureBox)
+        {
+            for (int y = 0; y < zBuffer.GetLength(0); y++)
+            {
+                for (int x = 0; x < zBuffer.GetLength(1); x++)
+                {
+                    zBuffer[y, x] = double.NegativeInfinity;
+                    frameBuffer[y, x] = PixelType.Background;
+                }
+            }
+
             foreach (Polygon polygon in Polygons)
             {
-                polygon.Fill(g, surfaceBrush, PointArray);
-                if (drawCorners)
+                List<Point> points = polygon.Get2DPointsInsidePolygon(PointArray);
+                Point[] corners = polygon.GetCorners(PointArray).Select(c => c.ToPoint()).ToArray();
+                foreach (Point point in points)
                 {
-                    foreach (Point3D corner in Corners)
+                    if (!(point.X < 0 || point.X >= pictureBox.Width || point.Y < 0 || point.Y >= pictureBox.Height))
                     {
-                        corner.Draw(g, cornerBrush, cornerFatness);
+                        double z = polygon.GetZValue(PointArray, point);
+                        if (z > zBuffer[point.Y, point.X])
+                        {
+                            zBuffer[point.Y, point.X] = z;
+
+                            frameBuffer[point.Y, point.X] = PixelType.SurfaceFront;
+                            foreach (Point corner in corners)
+                            {
+                                if (corner.X == point.X && corner.Y == point.Y)
+                                {
+                                    frameBuffer[point.Y, point.X] = PixelType.Point;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
-                if (drawPoints)
+            }
+        }
+
+        private void DrawPixels(Graphics g, PixelType[,] frameBuffer)
+        {
+            for (int y = 0; y < frameBuffer.GetLength(0); y++)
+            {
+                for (int x = 0; x < frameBuffer.GetLength(1); x++)
                 {
-                    foreach (int pointIndex in polygon.PointIndices)
+                    if (frameBuffer[y, x] == PixelType.Point)
                     {
-                        PointArray[pointIndex].Draw(g, pointBrush, pointFatness);
+                        g.FillRectangle(pointBrush, x, y, 1, 1);
+                    }
+                    else if (frameBuffer[y, x] == PixelType.SurfaceFront)
+                    {
+                        g.FillRectangle(surfaceFrontBrush, x, y, 1, 1);
                     }
                 }
             }

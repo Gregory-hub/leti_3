@@ -1,0 +1,71 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+
+namespace lab5
+{
+    internal class Polygon
+    {
+        public int[] PointIndices { get; set; }
+
+        public Polygon(int[] pointIndices)
+        {
+            if (pointIndices.Length != 3) throw new ArgumentException("Polygon must have 3 vertices");
+
+            PointIndices = new int[3];
+            for (int i = 0; i < pointIndices.Length; i++)
+            {
+                PointIndices[i] = pointIndices[i];
+            }
+        }
+
+        public bool PointIsInside(Point3D point, List<Point3D> pointArray)
+        {
+            Point3D p0 = pointArray[PointIndices[0]];
+            Point3D p1 = pointArray[PointIndices[1]];
+            Point3D p2 = pointArray[PointIndices[2]];
+
+            Point3D e0 = p1 - p0;
+            Point3D e1 = p2 - p1;
+            Point3D e2 = p0 - p2;
+
+            Point3D v0 = point - p0;
+            Point3D v1 = point - p1;
+            Point3D v2 = point - p2;
+
+            Point3D pq0 = v0 - e0 * Clamp(dot(v0, e0) / dot(e0, e0), 0.0, 1.0);
+            Point3D pq1 = v1 - e1 * clamp(dot(v1, e1) / dot(e1, e1), 0.0, 1.0);
+            Point3D pq2 = v2 - e2 * clamp(dot(v2, e2) / dot(e2, e2), 0.0, 1.0);
+
+            float s = e0.x * e2.y - e0.y * e2.x;
+            Point3D d = min(min(Point3D(dot(pq0, pq0), s * (v0.x * e0.y - v0.y * e0.x)),
+                               Point3D(dot(pq1, pq1), s * (v1.x * e1.y - v1.y * e1.x))),
+                               Point3D(dot(pq2, pq2), s * (v2.x * e2.y - v2.y * e2.x)));
+
+            return -sqrt(d.x) * sign(d.y);
+        }
+
+        public void Fill(Graphics g, Brush brush, List<Point3D> pointArray)
+        {
+            Point[] points = new Point[3];
+            for (int i = 0; i < PointIndices.Length; i++)
+            {
+                points[i] = pointArray[PointIndices[i]].ToPoint();
+            }
+            g.FillPolygon(brush, points);
+        }
+
+        public void Fill(Graphics g, Brush brush, List<Point3D> pointArray, Pen polygonPen)
+        {
+            Point[] points = new Point[3];
+            for (int i = 0; i < PointIndices.Length; i++)
+            {
+                points[i] = pointArray[PointIndices[i]].ToPoint();
+            }
+            g.FillPolygon(brush, points);
+            g.DrawPolygon(polygonPen, points);
+        }
+    }
+}
+

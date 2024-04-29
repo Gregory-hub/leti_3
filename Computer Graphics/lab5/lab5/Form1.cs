@@ -24,9 +24,10 @@ namespace lab5
         private double sensitivityX = 0.01;
         private double sensitivityY = 0.01;
 
-        private Brush surfaceFrontBrush = Brushes.Aqua;
+        private Brush surfaceFrontBrush = Brushes.Cyan;
+        private Brush surfaceBackBrush = Brushes.IndianRed;
         private Brush cornerBrush = Brushes.Black;
-        private Brush pointBrush = Brushes.Red;
+        private Brush pointBrush = Brushes.Black;
 
         public int GridDensity
         {
@@ -46,13 +47,14 @@ namespace lab5
         public Form1()
         {
             InitializeComponent();
-            textBox1.Text = "50";
+            textBox1.Text = "20";
             center[0] = pictureBox1.Width / 2;
             center[1] = pictureBox1.Height / 2;
 
             surface.cornerBrush = cornerBrush;
             surface.pointBrush = pointBrush;
-            surface.surfaceBrush = surfaceFrontBrush;
+            surface.surfaceFrontBrush = surfaceFrontBrush;
+            surface.surfaceBackBrush = surfaceBackBrush;
             surface.pointFatness = usualPointSize;
             surface.cornerFatness = cornerPointSize;
         }
@@ -63,7 +65,7 @@ namespace lab5
             {
                 label2.Text = "";
                 surface.Calculate(GridDensity);
-                surface.Fill(e.Graphics, true, true);
+                surface.Fill(e.Graphics, pictureBox1, true, true);
             }
             else
             {
