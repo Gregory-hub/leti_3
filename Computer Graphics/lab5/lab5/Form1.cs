@@ -25,7 +25,7 @@ namespace lab5
         private double sensitivityY = 0.01;
 
         private Brush surfaceFrontBrush = Brushes.Cyan;
-        private Brush surfaceBackBrush = Brushes.IndianRed;
+        private Brush surfaceBackBrush = Brushes.Red;
         private Brush cornerBrush = Brushes.Black;
         private Brush pointBrush = Brushes.Black;
 
@@ -63,9 +63,7 @@ namespace lab5
         {
             if (surface.Corners.Count == 4 && GridDensity != 0)
             {
-                label2.Text = "";
-                surface.Calculate(GridDensity);
-                surface.Fill(e.Graphics, pictureBox1, true, true);
+                surface.Fill(e.Graphics, pictureBox1);
             }
             else
             {
@@ -86,6 +84,10 @@ namespace lab5
                 Point3D point = new Point3D(e.Location.X, e.Location.Y, 0d);
                 surface.Corners.Add(point);
 
+                if (surface.Corners.Count == 4)
+                {
+                    surface.Calculate(GridDensity);
+                }
                 pictureBox1.Refresh();
             }
         }
@@ -149,6 +151,7 @@ namespace lab5
 
         private void button2_Click(object sender, EventArgs e)
         {
+            surface.Calculate(GridDensity);
             pictureBox1.Refresh();
         }
 

@@ -12,6 +12,13 @@ namespace lab5
             Matrix = Matrix<double>.Build.DenseIdentity(3, 3);  // identity matrix (zero rotation)
         }
 
+        public static Rotation operator -(Rotation rotation)
+        {
+            Rotation newRotation = new Rotation();
+            newRotation.Matrix = rotation.Matrix.Inverse();
+            return newRotation;
+        }
+
         public Vector<double> GetAngles()
         {
             Vector<double> angles = Vector<double>.Build.Dense(3);
@@ -37,13 +44,6 @@ namespace lab5
                 }
             }
             return angles;
-        }
-
-        public static Rotation operator -(Rotation rotation)
-        {
-            Rotation newRotation = new Rotation();
-            newRotation.Matrix = rotation.Matrix.Inverse();
-            return newRotation;
         }
 
         public void Clear()

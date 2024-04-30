@@ -35,7 +35,7 @@ namespace lab5
             Rotation = new Rotation();
         }
 
-        public void Fill(Graphics g, PictureBox pictureBox, bool drawCorners = false, bool drawPoints = false, bool drawPolygonBorders = false)
+        public void Fill(Graphics g, PictureBox pictureBox)
         {
             double[,] zBuffer = new double[pictureBox.Height, pictureBox.Width];
             PixelType[,] frameBuffer = new PixelType[pictureBox.Height, pictureBox.Width];
@@ -67,7 +67,15 @@ namespace lab5
                         {
                             zBuffer[point.Y, point.X] = z;
 
-                            frameBuffer[point.Y, point.X] = PixelType.SurfaceFront;
+                            if (polygon.CornersArrangedClockwise(PointArray))
+                            {
+                                frameBuffer[point.Y, point.X] = PixelType.SurfaceFront;
+                            }
+                            else
+                            {
+                                frameBuffer[point.Y, point.X] = PixelType.SurfaceBack;
+                            }
+
                             foreach (Point corner in corners)
                             {
                                 if (corner.X == point.X && corner.Y == point.Y)
@@ -95,6 +103,10 @@ namespace lab5
                     else if (frameBuffer[y, x] == PixelType.SurfaceFront)
                     {
                         g.FillRectangle(surfaceFrontBrush, x, y, 1, 1);
+                    }
+                    else if (frameBuffer[y, x] == PixelType.SurfaceBack)
+                    {
+                        g.FillRectangle(surfaceBackBrush, x, y, 1, 1);
                     }
                 }
             }

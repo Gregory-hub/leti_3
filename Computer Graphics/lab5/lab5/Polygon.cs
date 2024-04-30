@@ -79,16 +79,17 @@ namespace lab5
         {
             int[] borders = new int[2];
 
-            double k;
-            double m;
+            double[] lineCoefficients;
+            double k, m;
             if (maxYCorner.X == minYCorner.X)
             {
                 borders[1] = maxYCorner.X;
             }
             else
             {
-                k =  (double)(maxYCorner.Y - minYCorner.Y) / (maxYCorner.X - minYCorner.X);
-                m = maxYCorner.Y - k * maxYCorner.X;
+                lineCoefficients = GetLineEquation(maxYCorner, minYCorner);
+                k = lineCoefficients[0];
+                m = lineCoefficients[1];
                 borders[1] = (int)Math.Round((y - m) / k);
             }
 
@@ -100,8 +101,9 @@ namespace lab5
                 }
                 else
                 {
-                    k = (double)(maxYCorner.Y - middleYCorner.Y) / (maxYCorner.X - middleYCorner.X);
-                    m = maxYCorner.Y - k * maxYCorner.X;
+                    lineCoefficients = GetLineEquation(maxYCorner, middleYCorner);
+                    k = lineCoefficients[0];
+                    m = lineCoefficients[1];
                     borders[0] = (int)Math.Round((y - m) / k);
                 }
             }
@@ -113,13 +115,52 @@ namespace lab5
                 }
                 else
                 {
-                    k =  (double)(middleYCorner.Y - minYCorner.Y) / (middleYCorner.X - minYCorner.X);
-                    m = minYCorner.Y - k * minYCorner.X;
+                    lineCoefficients = GetLineEquation(middleYCorner, minYCorner);
+                    k = lineCoefficients[0];
+                    m = lineCoefficients[1];
                     borders[0] = (int)Math.Round((y - m) / k);
                 }
             }
 
             return borders.OrderBy(x => x).ToArray();
+        }
+
+        public bool CornersArrangedClockwise(List<Point3D> pointArray)
+        {
+            Point[] points = GetCorners(pointArray).Select(p => p.ToPoint()).ToArray();
+            if (points[0].X == points[1].X)
+            {
+                if (points[0].Y > points[1].Y)
+                {
+                    return points[2].X < points[0].X;
+                }
+                else
+                {
+                    return points[2].X > points[0].X;
+                }
+            }
+
+            double[] lineCoefficients = GetLineEquation(points[0], points[1]);
+            double k = lineCoefficients[0];
+            double m = lineCoefficients[1];
+
+            if (points[0].X < points[1].X)
+            {
+                return points[2].Y < k * points[2].X + m;
+            }
+            else
+            {
+                return points[2].Y > k * points[2].X + m;
+            }
+        }
+
+        private double[] GetLineEquation(Point point1, Point point2)
+        {
+            // y = kx + m
+            if (point1.X == point2.X) throw new ArgumentException("Method does not work for line equations like x = c");
+            double k = (double)(point1.Y - point2.Y) / (point1.X - point2.X);
+            double m = point2.Y - k * point2.X;
+            return new double[] { k, m };
         }
 
         private double[] GetPlaneEquation(List<Point3D> pointArray)
@@ -149,45 +190,6 @@ namespace lab5
             result[2] = v1[0] * v2[1] - v1[1] * v2[0];
             return result;
         }
-
-        //public bool PointIsInside(Point3D point, List<Point3D> pointArray)
-        //{
-        //    // Sdf for triangle in 3d
-        //    // https://www.shadertoy.com/view/4sXXRN
-
-        //    Point3D v1 = pointArray[PointIndices[0]];
-        //    Point3D v2 = pointArray[PointIndices[1]];
-        //    Point3D v3 = pointArray[PointIndices[2]];
-
-        //    Point3D v21 = v2 - v1;
-        //    Point3D p1 = point - v1;
-        //    Point3D v32 = v3 - v2;
-        //    Point3D p2 = point - v2;
-        //    Point3D v13 = v1 - v3;
-        //    Point3D p3 = point - v3;
-        //    Point3D normal = Cross(v21, v13);
-
-        //    Point3D vp21 = v21 * Clamp(v21 * p1 / (v21 * v21), 0.0, 1.0) - p1;
-        //    Point3D vp32 = v32 * Clamp(v32 * p2 / (v32 * v32), 0.0, 1.0) - p2;
-        //    Point3D vp13 = v13 * Clamp(v13 * p3 / (v13 * v13), 0.0, 1.0) - p3;
-        //    double distance = Math.Sqrt((Math.Sign(Cross(v21, normal) * p1)) +
-        //                  Math.Sign(Cross(v32, normal) * p2) +
-        //                  Math.Sign(Cross(v13, normal) * p3) < 2.0
-        //                  ?
-        //                  Math.Min(Math.Min(
-        //                  vp21 * vp21,
-        //                  vp32 * vp32),
-        //                  vp13 * vp13)
-        //                  :
-        //                  normal * p1 * normal * p1 / (normal * normal));
-
-        //    return distance < 1;
-        //}
-
-        //private double Clamp(double value, double min, double max)
-        //{
-        //    return Math.Max(min, Math.Min(max, value));
-        //}
     }
 }
 

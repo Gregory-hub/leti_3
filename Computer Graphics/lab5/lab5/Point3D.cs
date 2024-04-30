@@ -44,21 +44,6 @@ namespace lab5
             return new Point3D(point1.Coords - point2.Coords);
         }
 
-        public static double operator *(Point3D point1, Point3D point2)
-        {
-            return point1.Coords * point2.Coords;
-        }
-
-        public static Point3D operator *(double value, Point3D point)
-        {
-            return new Point3D(value * point.Coords);
-        }
-
-        public static Point3D operator *(Point3D point, double value)
-        {
-            return new Point3D(value * point.Coords);
-        }
-
         public Point ToPoint()
         {
             Point point = new Point();
