@@ -48,7 +48,6 @@ namespace lab5
             int minYCornerIndex = 2;
             for (int i = 0; i < corners.Length; i++)
             {
-                // DANGER!!! hard to understand. Should work though
                 if (corners[i].Y < corners[minYCornerIndex].Y)
                 {
                     minYCornerIndex = i;
@@ -66,7 +65,7 @@ namespace lab5
             for (int y = maxYCorner.Y; y > minYCorner.Y; y--)
             {
                 int[] xBorders = GetHorizontalLineXBorders(maxYCorner, middleYCorner, minYCorner, y);
-                for (int x = xBorders[0]; x <= xBorders[1]; x++)
+                for (int x = xBorders[0]; x < xBorders[1]; x++)
                 {
                     points.Add(new Point(x, y));
                 }
