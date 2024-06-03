@@ -1,8 +1,6 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sb
-from scipy import stats
 
 from distributions import *
 
@@ -26,21 +24,8 @@ data = np.array([1.64, 2.07, 2.41, 1.73, 2.48, 9.49, 1.61, 2.17, 9.22, 1.26, -1.
                -14, -13.6, -13.2, -15.6, -14.9, -15, -14.8, -15.3, -13, -13.5, -13.6, -13.2,
                -14, -14.3, -15, -17, -17.5, -16.6, -14.9, -14, -12.2, -12.7, -13.7, -12.9])
 
-N = len(data)
 M = D = A = E = 0
-
-datasum = sum(data)
-M = datasum / N
-D = sum([(x - M)**2 for x in data]) / N
-M3 = sum([(x - M)**3 for x in data]) / N
-M4 = sum([(x - M)**4 for x in data]) / N
-stdev = D**(1/2)
-A = M3 / stdev**3
-E = M4 / stdev**4 - 3
-
-# A = (sum([x**4 for x in data]) - 4 / N * sum([x**4 for x in data]) * 
-#     datasum + 6 / N**2 * sum([x**2 for x in data]) * datasum**2 - 
-#     4 / N**3 * datasum**4) / N
+N = len(data)
 
 num_points = 50
 x_min, x_max = min(data), max(data)
@@ -57,7 +42,16 @@ for i in range(num_points):
             count += 1
 
     probability[x] = count / N
+    M += x * probability[x]
     x += step
+
+datasum = sum(data)
+D = sum([(x - M)**2 for x in data]) / N
+M3 = sum([(x - M)**3 for x in data]) / N
+M4 = sum([(x - M)**4 for x in data]) / N
+stdev = D**(1/2)
+A = M3 / stdev**3
+E = M4 / stdev**4 - 3
 
 dist_y = []
 for i in range(len(dist_x)):
@@ -68,31 +62,21 @@ dist_y = np.gradient(dist_y)
 
 normal_d_y = normal_distribution(dist_x, M, stdev)
 
-# k = 2.5
-# wiebull_d_y = wiebull_distribution(dist_x, x_min, k, M)
-
 dist = pd.DataFrame({
     "X": dist_x,
     "Distribution": dist_y,
     "Distribution smoothed": smooth(dist_y, 20),
     "Normal distribution": normal_d_y,
-    # "Wiebull distribution": wiebull_d_y    
 })
-
-# P = 
-# mode = stats.mode(data).mode
-# n = 
 
 print("Математическое ожидание:", M)
 print("Дисперсия", D)
 print("Ассиметрия:", A)
 print("Эксцесс:", E)
 
-# sb.histplot(data, stat="probability", bins=num_points, kde=True)
 plt.plot(dist["X"], dist["Distribution"], color="c")
 plt.plot(dist["X"], dist["Distribution smoothed"], color="purple")
 plt.plot(dist["X"], dist["Normal distribution"], color="r")
-# plt.plot(dist["X"], dist["Wiebull distribution"], color="y")
 
 plt.legend(dist.keys()[1:])
 plt.xlabel("x")
